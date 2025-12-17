@@ -74,7 +74,7 @@ header.main-header {
 .logo-img {
     height: 50px;
     width: 50px;
-    object-fit: contain;
+   object-fit: cover;  
      border-radius: 50%;   
     border: 2px solid #ccc;
 }
@@ -482,4 +482,5 @@ header.main-header {
     .hero-btns { flex-direction: column; }
     .contact .card { width: 100%; }
 }
+
 
