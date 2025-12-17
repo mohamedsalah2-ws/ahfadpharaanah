@@ -1,0 +1,475 @@
+/* --- 1. الإعدادات العامة والخطوط --- */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap');
+
+:root {
+    --gold: #c5a059;       /* ذهبي مطفي فخم */
+    --dark-bg: #0a0a0a;    /* أسود كربوني */
+    --card-bg: #151515;    /* رمادي غامق للكروت */
+    --white: #ffffff;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--white);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* --- 2. الهيدر (Navigation) --- */
+header.main-header {
+    background-color: transparent;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+/* حاوية النصوص */
+.logo-text {
+    display: flex;
+    flex-direction: column; /* ترتيب العناصر تحت بعضها */
+    line-height: 1.2; /* تقليل المسافة بين السطرين */
+}
+
+/* الاسم الرئيسي */
+.brand-name {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 800;
+    display: block;
+}
+
+/* النص الفرعي */
+.brand-tagline {
+    color: var(--gold); /* لون ذهبي */
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+/* تحجيم الصورة لتناسب السطرين */
+.logo-img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* ضبط الموبايل */
+@media (max-width: 768px) {
+    .brand-name { font-size: 1.1rem; }
+    .brand-tagline { font-size: 0.65rem; }
+    .logo-img { height: 45px; }
+}
+
+.navigation a {
+    color: var(--white);
+    text-decoration: none;
+    margin-right: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.navigation a:hover {
+    color: var(--gold);
+}
+
+/* --- 3. القسم الرئيسي (Hero Section) --- */
+.main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.bg-zoom {
+    position: absolute;
+    inset: 0;
+    background: url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600') no-repeat center center/cover;
+    animation: zoomEffect 20s infinite alternate;
+    z-index: -2;
+}
+
+@keyframes zoomEffect {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+    z-index: -1;
+}
+
+.main-content {
+    z-index: 10;
+    max-width: 900px;
+    padding: 0 20px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 20px;
+    background: rgba(197, 160, 89, 0.1);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--gold);
+    margin-bottom: 30px;
+}
+
+.hero-title {
+    margin-bottom: 20px;
+}
+
+.bronze-text {
+    color: var(--gold);
+    font-size: 4.5rem;
+    font-weight: 800;
+    display: block;
+    text-shadow: 2px 4px 15px rgba(0,0,0,0.5);
+}
+
+.hero-desc {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: var(--gold);
+    color: #000;
+    padding: 15px 35px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 800;
+    transition: var(--transition);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--white);
+    padding: 15px 35px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid var(--white);
+    transition: var(--transition);
+}
+
+.btn-primary:hover, .btn-outline:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* --- 4. قسم الخدمات (Services) --- */
+.services-advanced {
+    padding: 100px 8%;
+    background-color: var(--dark-bg);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.title {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 15px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.service-item {
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+}
+
+.service-item:hover {
+    border-color: var(--gold);
+    transform: translateY(-10px);
+}
+
+.service-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.service-info {
+    padding: 45px 25px 30px;
+    text-align: center;
+}
+
+.floating-icon {
+    position: absolute;
+    top: 165px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 70px;
+    background: var(--gold);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    border-radius: 4px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.features-list {
+    list-style: none;
+    margin: 20px 0;
+    text-align: right;
+}
+
+.features-list li {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: rgba(255,255,255,0.7);
+}
+
+.features-list li i {
+    color: var(--gold);
+    margin-left: 10px;
+}
+
+.service-btn {
+    text-decoration: none;
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* --- معرض الأعمال المطور --- */
+.projects-gallery {
+    padding: 100px 8%;
+    background-color: #050505;
+}
+
+.gallery-grid {
+    display: grid;
+    /* استخدام نظام grid المتقدم لترتيب مرن */
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    margin-top: 50px;
+}
+
+.gallery-item {
+    position: relative;
+    height: 400px; /* طول ثابت ومناسب */
+    border-radius: 4px; /* حواف حادة للديكور المودرن */
+    overflow: hidden;
+    background: #111;
+    cursor: zoom-in;
+    border: 1px solid rgba(197, 160, 89, 0.1);
+}
+
+/* جعل بعض الصور أطول لإعطاء شكل فني */
+.gallery-item.tall {
+    grid-row: span 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* طبقة الظلال والبيانات */
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(197, 160, 89, 0.2) 100%);
+    display: flex;
+    align-items: flex-end; /* وضع النص في الأسفل */
+    padding: 30px;
+    opacity: 0;
+    transition: all 0.5s ease;
+    transform: translateY(20px);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* تنسيق النصوص داخل المعرض */
+.overlay-text .category {
+    color: var(--gold);
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.overlay-text h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.overlay-text p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+}
+
+/* استجابة الموبايل */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: 1fr; /* صورة واحدة في السطر للموبايل */
+    }
+    .gallery-item {
+        height: 300px;
+    }
+}
+
+/* --- تنسيق قسم التواصل --- */
+.contact-section { padding: 100px 8%; background: #0a0a0a; }
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 50px;
+    margin-top: 50px;
+}
+
+.contact-info { display: flex; flex-direction: column; gap: 30px; }
+
+.info-item { display: flex; align-items: center; gap: 20px; }
+
+.info-icon {
+    width: 60px; height: 60px; background: rgba(197, 160, 89, 0.1);
+    color: var(--gold); display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; border-radius: 4px; border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.info-text h3 { font-size: 1.1rem; color: var(--gold); margin-bottom: 5px; }
+.info-text p { color: #ccc; font-size: 0.95rem; }
+
+/* تنسيق الفورم */
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
+
+.form-group { display: flex; gap: 20px; }
+
+.contact-form input, .contact-form textarea {
+    width: 100%; padding: 15px; background: #151515; border: 1px solid #333;
+    color: #fff; border-radius: 4px; outline: none; transition: 0.3s;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+    border-color: var(--gold); background: #1a1a1a;
+}
+
+/* --- تنسيق الفوتر --- */
+.main-footer { background: #050505; padding: 80px 8% 20px; border-top: 1px solid #111; }
+
+.footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px;
+}
+
+.footer-about p { color: #888; margin-top: 20px; max-width: 300px; }
+
+.footer-links h3, .footer-social h3 { color: #fff; margin-bottom: 25px; font-size: 1.2rem; }
+
+.footer-links ul { list-style: none; }
+.footer-links ul li { margin-bottom: 12px; }
+.footer-links ul li a { color: #888; text-decoration: none; transition: 0.3s; }
+.footer-links ul li a:hover { color: var(--gold); padding-right: 10px; }
+
+.social-btns { display: flex; gap: 15px; }
+.social-btns a {
+    width: 40px; height: 40px; background: #151515; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px; text-decoration: none; transition: 0.3s; border: 1px solid #222;
+}
+.social-btns a:hover { background: var(--gold); color: #000; transform: translateY(-5px); }
+
+.footer-bottom {
+    text-align: center; padding-top: 30px; border-top: 1px solid #111; color: #555; font-size: 0.9rem;
+}
+
+/* استجابة الموبايل */
+@media (max-width: 768px) {
+    .contact-wrapper, .footer-grid { grid-template-columns: 1fr; }
+    .form-group { flex-direction: column; }
+}
+
+.whatsapp-fixed {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: #25d366;
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    z-index: 2000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* --- 8. التجاوب مع الجوال --- */
+@media (max-width: 768px) {
+    .bronze-text { font-size: 2.5rem; }
+    .navigation { display: none; }
+    .hero-btns { flex-direction: column; }
+    .contact .card { width: 100%; }
+}
