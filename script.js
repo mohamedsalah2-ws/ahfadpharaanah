@@ -1,33 +1,60 @@
 /**
  * أحفاد الفراعنة للديكور - المحرك البرمجي النهائي 2025
- * يشمل: الكتابة الآلية، تحكم الهيدر، أنيميشن الظهور، والمعرض المطور
+ * يشمل: القائمة المتجاوبة، الكتابة الآلية، تحكم الهيدر، أنيميشن الظهور، والمعرض المطور
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. تأثير الكتابة الآلية (Typing Effect) لعنوان الهيرو ---
+   
+    const menuToggle = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+       
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // إغلاق القائمة عند الضغط في أي مكان خارجها
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+    }
+
+    
     const bronzeText = document.querySelector('.bronze-text');
     if (bronzeText) {
         const fullText = bronzeText.innerText;
-        bronzeText.innerText = ''; // تفريغ النص للبدء بالكتابة
+        bronzeText.innerText = ''; 
         let charIndex = 0;
 
         function typeEffect() {
             if (charIndex < fullText.length) {
                 bronzeText.innerHTML += fullText.charAt(charIndex);
                 charIndex++;
-                setTimeout(typeEffect, 150); // سرعة الكتابة بالملي ثانية
+                setTimeout(typeEffect, 150); 
             }
         }
-        // بدء التأثير بعد تأخير بسيط لجذب الانتباه
         setTimeout(typeEffect, 500);
     }
 
-    // --- 2. التحكم في الهيدر عند التمرير ---
+   
     const header = document.querySelector('header');
     const handleScroll = () => {
         if (window.scrollY > 50) {
-            header.style.background = '#0a0a0a';
+            header.style.background = 'rgba(10, 10, 10, 0.95)';
             header.style.padding = '10px 8%';
             header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.8)';
         } else {
@@ -38,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     window.addEventListener('scroll', handleScroll);
 
-    // --- 3. أنيميشن ظهور العناصر (Scroll Reveal) باستخدام IntersectionObserver ---
+    
     const revealOptions = {
         threshold: 0.15,
         rootMargin: '0px 0px -50px 0px'
@@ -48,13 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                revealOnScroll.unobserve(entry.target); // تحسين الأداء
+                revealOnScroll.unobserve(entry.target); 
             }
         });
     }, revealOptions);
 
-    // استهداف العناصر (الخدمات، المعرض، كروت التواصل)
-    const scrollElements = document.querySelectorAll('.service-item, .gallery-item, .contact .card');
+    const scrollElements = document.querySelectorAll('.service-item, .gallery-item, .contact-wrapper > div');
     scrollElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -62,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         revealOnScroll.observe(el);
     });
 
-    // حقن كلاس النشاط في الـ CSS برمجياً
     if (!document.getElementById('reveal-styles')) {
         const style = document.createElement('style');
         style.id = 'reveal-styles';
@@ -70,14 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(style);
     }
 
-    // --- 4. معرض الصور المطور (Lightbox) ---
+   
     const galleryItems = document.querySelectorAll('.gallery-item');
     
     galleryItems.forEach(item => {
         item.addEventListener('click', function() {
             const img = this.querySelector('img');
             const imgSrc = img.src;
-            // محاولة جلب العنوان من h3 داخل الـ overlay أو الـ alt بتاع الصورة
             const imgTitle = this.querySelector('h3') ? this.querySelector('h3').innerText : 
                              (img.alt ? img.alt : 'أحد أعمالنا الفنية');
             
@@ -89,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const lightbox = document.createElement('div');
         lightbox.id = 'custom-lightbox';
         
-        // تنسيق طبقة العرض (Inline Styles للفخامة والتحكم الكامل)
         Object.assign(lightbox.style, {
             position: 'fixed',
             inset: '0',
@@ -112,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        // إغلاق المعرض عند الضغط
         lightbox.onclick = () => {
             lightbox.style.opacity = '0';
             setTimeout(() => lightbox.remove(), 300);
