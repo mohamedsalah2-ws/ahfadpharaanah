@@ -1171,4 +1171,8 @@ video::-webkit-media-controls-panel {
         font-size: 1.5rem;
     }
 }
+/* تحويل أيقونة الهامبرغر إلى X عند التفعيل */
+.mobile-menu-btn.active i::before {
+    content: "\f00d"; /* رمز X من FontAwesome */
+}
 
