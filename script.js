@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
        
-        document.querySelectorAll('.nav-links a').forEach(link => {
+       document.querySelectorAll('.nav-links a')
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
                 menuToggle.classList.remove('active');
@@ -143,3 +143,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(lightbox);
     }
 });
+
