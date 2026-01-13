@@ -17,12 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
        
-       document.querySelectorAll('.nav-links a')
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuToggle.classList.remove('active');
-            });
-        });
+      // إغلاق القائمة عند الضغط على أي رابط داخلها
+const navLinksItems = document.querySelectorAll('.navigation a');
+navLinksItems.forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.classList.remove('active');
+    });
+});
 
         // إغلاق القائمة عند الضغط في أي مكان خارجها
         document.addEventListener('click', (e) => {
@@ -143,4 +145,5 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(lightbox);
     }
 });
+
 
