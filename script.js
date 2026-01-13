@@ -1,32 +1,31 @@
 /**
- * أحفاد الفراعنة للديكور - المحرك البرمجي النهائي 2025
- * يشمل: القائمة المتجاوبة، الكتابة الآلية، تحكم الهيدر، أنيميشن الظهور، والمعرض المطور
+ * أحفاد الفراعنة للديكور - المحرك البرمجي المطور
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. القائمة المتجاوبة (Mobile Menu) ---
+    // --- 1. التحكم في القائمة المتجاوبة ---
     const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.getElementById('nav-links');
 
     if (menuToggle && navLinks) {
-        // فتح وإغلاق القائمة عند الضغط على الزر
+        // فتح وإغلاق القائمة عند الضغط على الأيقونة
         menuToggle.addEventListener('click', (e) => {
             e.stopPropagation(); 
             navLinks.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
 
-        // إغلاق القائمة عند الضغط على أي رابط (هنا كان الخطأ)
-        const allLinks = document.querySelectorAll('.navigation a');
-        allLinks.forEach(link => {
+        // إغلاق القائمة عند الضغط على أي رابط داخلها (تم التعديل هنا)
+        const allNavLinks = document.querySelectorAll('.navigation a');
+        allNavLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
                 menuToggle.classList.remove('active');
             });
         });
 
-        // إغلاق القائمة عند الضغط خارجها
+        // إغلاق القائمة عند الضغط في أي مكان خارجها
         document.addEventListener('click', (e) => {
             if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
                 navLinks.classList.remove('active');
@@ -46,10 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (charIndex < fullText.length) {
                 bronzeText.innerHTML += fullText.charAt(charIndex);
                 charIndex++;
-                setTimeout(typeEffect, 150); 
+                setTimeout(typeEffect, 100); // سرعة الكتابة
             }
         }
-        setTimeout(typeEffect, 500);
+        setTimeout(typeEffect, 800);
     }
 
     // --- 3. تحكم الهيدر عند التمرير ---
@@ -70,8 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const revealOnScroll = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('reveal-active');
                 revealOnScroll.unobserve(entry.target); 
             }
         });
@@ -84,5 +82,56 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         revealOnScroll.observe(el);
     });
-});
 
+    // إضافة كلاس التفعيل للأنيميشن
+    if (!document.getElementById('reveal-styles')) {
+        const style = document.createElement('style');
+        style.id = 'reveal-styles';
+        style.innerHTML = '.reveal-active { opacity: 1 !important; transform: translateY(0) !important; }';
+        document.head.appendChild(style);
+    }
+
+    // --- 5. معرض الصور (Lightbox) ---
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const img = this.querySelector('img');
+            const imgSrc = img.src;
+            const imgTitle = this.querySelector('h3') ? this.querySelector('h3').innerText : 'أحفاد الفراعنة للديكور';
+            createLightbox(imgSrc, imgTitle);
+        });
+    });
+
+    function createLightbox(src, title) {
+        const lightbox = document.createElement('div');
+        lightbox.id = 'custom-lightbox';
+        
+        Object.assign(lightbox.style, {
+            position: 'fixed',
+            inset: '0',
+            background: 'rgba(0,0,0,0.96)',
+            zIndex: '5000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            cursor: 'zoom-out',
+            padding: '20px',
+            transition: 'opacity 0.3s ease'
+        });
+
+        lightbox.innerHTML = `
+            <div style="text-align:center; max-width: 900px; width: 100%;">
+                <img src="${src}" style="max-width:100%; max-height:75vh; border:2px solid #c5a059; border-radius: 4px; box-shadow: 0 0 50px rgba(197, 160, 89, 0.4); margin-bottom: 20px;">
+                <h3 style="color:#fff; font-family:Cairo; font-weight:400; font-size: 1.5rem;">${title}</h3>
+                <p style="color:#c5a059; margin-top:10px; font-size:13px;">إضغط في أي مكان للعودة</p>
+            </div>
+        `;
+
+        lightbox.onclick = () => {
+            lightbox.style.opacity = '0';
+            setTimeout(() => lightbox.remove(), 300);
+        };
+        document.body.appendChild(lightbox);
+    }
+});
