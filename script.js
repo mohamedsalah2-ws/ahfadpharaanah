@@ -1,5 +1,5 @@
 /**
- * أحفاد الفراعنة للديكور - المحرك البرمجي المطور V4.0 (نظام المجلدات المنبثقة)
+ * أحفاد الفراعنة للديكور - المحرك البرمجي المطور V4.1 (دعم السحب والإغلاق الذكي)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.15 });
 
-    // أضفنا الكلاس الجديد folder-card ليظهر بأنيميشن فخم
     const scrollElements = document.querySelectorAll('.service-item, .contact-wrapper > div, .folder-card'); 
     scrollElements.forEach(el => {
         el.style.opacity = '0';
@@ -87,10 +86,47 @@ document.addEventListener('DOMContentLoaded', () => {
         style.innerHTML = '.reveal-active { opacity: 1 !important; transform: translateY(0) !important; }';
         document.head.appendChild(style);
     }
+    
+    // --- إعدادات إغلاق النافذة عند الضغط في الخلفية ---
+    const folderModal = document.getElementById('folder-modal');
+    if (folderModal) {
+        folderModal.addEventListener('click', (e) => {
+            // الإغلاق فقط إذا كان الضغط على الخلفية السوداء أو الحاوية، وليس على الصورة أو الأسهم
+            if (e.target.id === 'folder-modal' || e.target.classList.contains('modal-slider-container')) {
+                closeModal();
+            }
+        });
+        
+        // --- إعدادات السحب (Swipe) للموبايل ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        folderModal.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        folderModal.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // المسافة المطلوبة لاعتبار الحركة "سحبة"
+            
+            // سحب لليسار (الصورة التالية)
+            if (touchStartX - touchEndX > swipeThreshold) {
+                changeImage(1);
+            }
+            // سحب لليمين (الصورة السابقة)
+            if (touchEndX - touchStartX > swipeThreshold) {
+                changeImage(-1);
+            }
+        }
+    }
 });
 
 // =========================================================
-// --- 5. محرك المجلدات وعرض الصور (يجب أن يكون هنا بالخارج) ---
+// --- 5. محرك المجلدات وعرض الصور (بالخارج لتعمل مع HTML) ---
 // =========================================================
 
 let currentFolderImages = [];
@@ -101,7 +137,6 @@ function openFolder(folderId, folderTitle) {
     const hiddenFolder = document.getElementById(folderId);
     
     if (hiddenFolder) {
-        // سحب كل الصور من المخزن
         const images = hiddenFolder.querySelectorAll('img');
         
         if (images.length > 0) {
@@ -113,7 +148,7 @@ function openFolder(folderId, folderTitle) {
             updateModalView();
             const modal = document.getElementById('folder-modal');
             modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // إيقاف تمرير الصفحة الرئيسية
+            document.body.style.overflow = 'hidden'; 
         } else {
             console.log("لا توجد صور في هذا القسم بعد.");
         }
@@ -123,12 +158,11 @@ function openFolder(folderId, folderTitle) {
 // دالة تقليب الصور يميناً ويساراً
 function changeImage(step) {
     const imgElement = document.getElementById('modal-main-img');
-    imgElement.style.opacity = '0'; // إخفاء الصورة تدريجياً
+    imgElement.style.opacity = '0'; 
     
     setTimeout(() => {
         currentImageIndex += step;
         
-        // العودة للبداية إذا انتهت الصور
         if (currentImageIndex >= currentFolderImages.length) {
             currentImageIndex = 0;
         } else if (currentImageIndex < 0) {
@@ -136,7 +170,7 @@ function changeImage(step) {
         }
         
         updateModalView();
-        imgElement.style.opacity = '1'; // إظهار الصورة الجديدة
+        imgElement.style.opacity = '1'; 
     }, 200);
 }
 
@@ -149,5 +183,54 @@ function updateModalView() {
 // دالة إغلاق النافذة
 function closeModal() {
     document.getElementById('folder-modal').style.display = 'none';
-    document.body.style.overflow = 'auto'; // إعادة تمرير الصفحة
+    document.body.style.overflow = 'auto'; 
 }
+
+// =========================================================
+// --- 6. محرك عرض الفيديوهات (Cinematic Video Player) ---
+// =========================================================
+
+function openVideo(videoSrc) {
+    const videoModal = document.getElementById('video-modal');
+    const videoPlayer = document.getElementById('main-video-player');
+
+    if (videoModal && videoPlayer) {
+        // تغيير مسار الفيديو وتشغيله
+        videoPlayer.src = videoSrc;
+        
+        // إظهار النافذة
+        videoModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // إيقاف التمرير
+        
+        // تشغيل الفيديو تلقائياً
+        videoPlayer.play();
+    }
+}
+
+function closeVideo() {
+    const videoModal = document.getElementById('video-modal');
+    const videoPlayer = document.getElementById('main-video-player');
+
+    if (videoModal && videoPlayer) {
+        // إخفاء النافذة
+        videoModal.style.display = 'none';
+        document.body.style.overflow = 'auto'; 
+        
+        // إيقاف الفيديو وتفريغ المسار حتى لا يستمر في الخلفية
+        videoPlayer.pause();
+        videoPlayer.currentTime = 0;
+        videoPlayer.src = "";
+    }
+}
+
+// إغلاق الفيديو عند الضغط في الخلفية السوداء
+document.addEventListener('DOMContentLoaded', () => {
+    const videoModal = document.getElementById('video-modal');
+    if (videoModal) {
+        videoModal.addEventListener('click', (e) => {
+            if (e.target.id === 'video-modal') {
+                closeVideo();
+            }
+        });
+    }
+});
