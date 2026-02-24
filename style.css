@@ -655,9 +655,8 @@ header.main-header {
     .contact .card { width: 100%; }
 }
 
-
 /* ========================================= */
-/* قسم الفيديوهات - التصميم السينمائي المطور */
+/* قسم الفيديوهات - التصميم السينمائي المطور (تمرير أفقي) */
 /* ========================================= */
 
 .video-gallery {
@@ -665,32 +664,56 @@ header.main-header {
     background-color: #050505;
 }
 
+/* 1. تعديل الشبكة لتصبح شريط تمرير أفقي */
 .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    display: flex;
+    overflow-x: auto;
     gap: 30px;
     margin-top: 50px;
+    padding-bottom: 25px; /* مساحة بالأسفل لشريط التمرير */
+    scroll-snap-type: x mandatory; /* وقوف ناعم عند كل كارت */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* لدعم التمرير السلس في الآيفون */
 }
 
+/* 2. تجميل شريط التمرير ليناسب ألوان موقعك */
+.video-grid::-webkit-scrollbar {
+    height: 8px;
+}
+.video-grid::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+.video-grid::-webkit-scrollbar-thumb {
+    background: var(--gold, #c5a059);
+    border-radius: 10px;
+}
+.video-grid::-webkit-scrollbar-thumb:hover {
+    background: #fff;
+}
+
+/* 3. تعديل الكارت ليحافظ على عرضه ولا ينضغط */
 .video-card {
-    background: var(--card-bg);
+    flex: 0 0 320px; /* تثبيت العرض بـ 320 بيكسل */
+    scroll-snap-align: start; /* محاذاة الكارت عند التمرير */
+    background: var(--card-bg, #111);
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: var(--transition, 0.3s ease);
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .video-card:hover {
-    border-color: var(--gold);
+    border-color: var(--gold, #c5a059);
     transform: translateY(-10px);
-    box-shadow: 0 10px 25px rgba(197, 160, 89, 0.15); 
+    box-shadow: 0 10px 25px rgba(197, 160, 89, 0.15);
 }
 
 /* حاوية صورة الغلاف وزر التشغيل */
 .video-thumbnail {
     width: 100%;
-    aspect-ratio: 16 / 9; 
+    aspect-ratio: 16 / 9;
     background: #000;
     position: relative;
     overflow: hidden;
@@ -705,7 +728,7 @@ header.main-header {
 }
 
 .video-card:hover .video-thumbnail img {
-    transform: scale(1.1); 
+    transform: scale(1.1);
 }
 
 /* زر التشغيل (Play Button) */
@@ -716,21 +739,21 @@ header.main-header {
     transform: translate(-50%, -50%);
     width: 60px;
     height: 60px;
-    background: var(--gold); 
+    background: var(--gold, #c5a059);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #000;
     font-size: 1.5rem;
-    padding-left: 5px; 
+    padding-left: 5px;
     transition: var(--transition, 0.3s ease);
     animation: pulse-play 2s infinite;
 }
 
 .video-card:hover .play-btn {
     background: #fff;
-    color: var(--gold);
+    color: var(--gold, #c5a059);
     transform: translate(-50%, -50%) scale(1.15);
 }
 
@@ -747,7 +770,7 @@ header.main-header {
 }
 
 .video-info h3 {
-    color: var(--gold);
+    color: var(--gold, #c5a059);
     font-size: 1.2rem;
     margin-bottom: 10px;
 }
@@ -776,7 +799,7 @@ header.main-header {
     position: absolute;
     top: 20px; right: 30px;
     color: #000;
-    background: var(--gold);
+    background: var(--gold, #c5a059);
     padding: 8px 20px;
     font-size: 1.2rem;
     font-weight: bold;
@@ -795,7 +818,7 @@ header.main-header {
     max-width: 900px;
     aspect-ratio: 16 / 9;
     background: #000;
-    border: 2px solid var(--gold);
+    border: 2px solid var(--gold, #c5a059);
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
@@ -808,16 +831,18 @@ header.main-header {
     outline: none;
 }
 
-/* التجاوب مع الموبايل */
+/* 4. التجاوب مع الموبايل (محدث) */
 @media (max-width: 768px) {
-    .video-grid {
-        grid-template-columns: 1fr;
+    .video-gallery {
+        padding: 60px 5%; /* تقليل الحواف الجانبية لترك مساحة للتمرير */
+    }
+    .video-card {
+        flex: 0 0 280px; /* تصغير عرض الكارت قليلاً ليناسب شاشات الموبايل */
     }
     .modal-video-container {
-        width: 95%; 
+        width: 95%;
     }
 }
-
 
 
 .mobile-menu-btn {
@@ -1104,6 +1129,7 @@ header.main-header {
     letter-spacing: 2px;
 
 }
+
 
 
 
