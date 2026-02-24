@@ -408,12 +408,37 @@ header.main-header {
 }
 
 
-@media (max-width: 800px) {
-    .gallery-grid {
-        grid-template-columns: 1fr; 
+/* ========================================= */
+/* تظبيط مقاسات المجلدات (Folders) للموبايل  */
+/* ========================================= */
+@media (max-width: 768px) {
+    .folders-grid {
+        grid-template-columns: 1fr; /* كارت واحد يملأ الشاشة */
+        gap: 25px; 
+        padding: 0 15px; /* مسافة بسيطة من الأطراف عشان ميبقاش لازق في الشاشة */
     }
-    .gallery-item {
-        height: 300px;
+
+    .folder-card {
+        height: auto; /* مهم جداً: بيخلي الكارت يلم نفسه على قد المحتوى وميبقاش فيه فراغ أسود */
+        padding: 20px 15px; /* تظبيط المسافة الداخلية للإطار الذهبي */
+    }
+
+    .folder-cover {
+        height: 240px; /* ارتفاع ممتاز للصورة عشان توضح تفاصيل الديكور */
+        width: 100%;
+        object-fit: cover; /* لضمان إن الصورة تملأ المكان بدون ما تتمط */
+        margin-bottom: 15px;
+        border-radius: 6px;
+    }
+
+    .folder-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .folder-card h3 {
+        font-size: 1.4rem;
+        margin-top: 10px;
     }
 }
 
@@ -1080,3 +1105,4 @@ header.main-header {
     letter-spacing: 2px;
 
 }
+
