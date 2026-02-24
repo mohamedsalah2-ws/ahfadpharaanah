@@ -407,41 +407,38 @@ header.main-header {
     color: rgba(255,255,255,0.7);
 }
 
-
 /* ========================================= */
-/* تحويل المجلدات لسلايدر أفقي بالسحب للموبايل */
+/* تحويل المجلدات لسلايدر أفقي (النسخة المصححة) */
 /* ========================================= */
 @media (max-width: 768px) {
     .folders-grid {
         display: flex !important;
-        flex-wrap: nowrap !important; /* يمنع نزول الكروت تحت بعض */
-        overflow-x: auto !important; /* تفعيل التمرير الأفقي */
-        gap: 15px !important;
-        padding: 20px 5% 40px !important; /* مساحات عشان الظل يظهر */
+        flex-wrap: nowrap !important;
         
-        /* تأثير السحب الناعم زي التطبيقات */
+        /* السر هنا: إلغاء التوسيط عشان الشريط ميتخنقش برا الشاشة */
+        justify-content: flex-start !important; 
+        
+        overflow-x: auto !important; 
+        gap: 15px !important;
+        padding: 20px 5% 40px !important; 
+        
         scroll-snap-type: x mandatory !important;
         scroll-behavior: smooth !important;
         
-        /* إخفاء شريط التمرير (الاسكرول بار) لشكل أنظف */
         -ms-overflow-style: none !important;
         scrollbar-width: none !important;
     }
 
-    /* إخفاء شريط التمرير في متصفحات كروم وسفاري */
     .folders-grid::-webkit-scrollbar {
         display: none !important;
     }
 
     .folder-card {
-        /* الكارت هياخد 85% من عرض الشاشة عشان يبان حتة من الكارت اللي بعده فالعميل يعرف إن فيه سحب */
         flex: 0 0 85% !important; 
         max-width: 320px !important;
-        
-        /* يخلي الكارت يقف في النص بالظبط لما تسيبه */
         scroll-snap-align: center !important; 
-        
         height: auto !important;
+        margin: 0 !important; /* تأكيد عشان مفيش أي مسافات خارجية تكسر السحب */
     }
 }
 
@@ -1107,5 +1104,6 @@ header.main-header {
     letter-spacing: 2px;
 
 }
+
 
 
