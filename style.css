@@ -231,10 +231,10 @@ header.main-header {
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    height: 380px; /* ارتفاع ثابت للكارت */
+    height: 380px; 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-    border: 1px solid rgba(197, 160, 89, 0.2); /* إطار ذهبي خفيف */
+    border: 1px solid rgba(197, 160, 89, 0.2);
 }
 
 /* صورة الخلفية */
@@ -246,7 +246,7 @@ header.main-header {
 }
 
 .luxury-card:hover .card-bg {
-    transform: scale(1.15); /* زووم ناعم للصورة */
+    transform: scale(1.15); 
 }
 
 /* المحتوى فوق الصورة */
@@ -304,7 +304,7 @@ header.main-header {
     color: #ddd;
     font-size: 0.95rem;
     line-height: 1.6;
-    max-height: 0; /* النص مخفي */
+    max-height: 0; 
     opacity: 0;
     margin: 0;
     transform: translateY(20px);
@@ -314,7 +314,7 @@ header.main-header {
 /* ما يحدث عند وقوف الماوس (Hover) */
 .luxury-card:hover .card-content {
     background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0.4) 100%);
-    padding-bottom: 30px; /* لرفع المحتوى لأعلى قليلاً */
+    padding-bottom: 30px; 
 }
 
 .luxury-card:hover h3 {
@@ -322,7 +322,7 @@ header.main-header {
 }
 
 .luxury-card:hover p {
-    max-height: 100px; /* إظهار النص */
+    max-height: 100px; 
     opacity: 1;
     transform: translateY(10px);
     margin-top: 5px;
@@ -415,7 +415,7 @@ header.main-header {
         display: flex !important;
         flex-wrap: nowrap !important;
         
-        /* السر هنا: إلغاء التوسيط عشان الشريط ميتخنقش برا الشاشة */
+        
         justify-content: flex-start !important; 
         
         overflow-x: auto !important; 
@@ -438,11 +438,11 @@ header.main-header {
         max-width: 320px !important;
         scroll-snap-align: center !important; 
         height: auto !important;
-        margin: 0 !important; /* تأكيد عشان مفيش أي مسافات خارجية تكسر السحب */
+        margin: 0 !important; 
     }
 }
 
-/* تنسيق قسم التواصل بدون فورم */
+/* تنسيق قسم التواصل */
 .contact-wrapper {
     margin-top: 50px;
     display: flex;
@@ -454,7 +454,7 @@ header.main-header {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     width: 100%;
-    max-width: 1000px; /* لضمان عدم تمدد الكروت بشكل مبالغ فيه في الشاشات الكبيرة */
+    max-width: 1000px; 
 }
 
 /* تصميم الكارت الواحد */
@@ -463,7 +463,7 @@ header.main-header {
     border: 1px solid rgba(197, 160, 89, 0.2);
     padding: 40px 20px;
     border-radius: 12px;
-    text-align: center; /* توسيط المحتوى داخل الكارت */
+    text-align: center; 
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     cursor: default;
 }
@@ -485,7 +485,7 @@ header.main-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px; /* توسيط الأيقونة */
+    margin: 0 auto 20px; 
     transition: 0.4s ease;
 }
 
@@ -511,7 +511,7 @@ header.main-header {
 /* تجاوب الموبايل */
 @media (max-width: 768px) {
     .contact-cards-grid {
-        grid-template-columns: 1fr; /* عرض كارت واحد في الصف على الموبايل */
+        grid-template-columns: 1fr; 
     }
 }
 
@@ -524,12 +524,12 @@ header.main-header {
     padding: 60px 8% 20px; 
     margin: 20px;
     border-top: 1px solid #111;
-    direction: rtl; /* لضمان اتجاه الموقع العربي */
+    direction: rtl; 
 }
 
 .footer-grid {
     display: grid; 
-    grid-template-columns: 2fr 1.5fr 1fr; /* توزيعة ممتازة للغة العربية */
+    grid-template-columns: 2fr 1.5fr 1fr; 
     gap: 40px; 
     margin-bottom: 40px;
 }
@@ -553,7 +553,7 @@ header.main-header {
     list-style: none; 
     display: flex; 
     flex-wrap: wrap; 
-    gap: 15px 35px; /* 15px بالطول و 35px بالعرض عشان ميبقوش لازقين */
+    gap: 15px 35px; 
     padding: 0;
     
 }
@@ -617,16 +617,16 @@ header.main-header {
     font-size: 30px;
     z-index: 2000;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    text-decoration: none; /* عشان لو هي رابط <a> ميعملش خط */
+    text-decoration: none; 
     transition: all 0.3s ease;
-    animation: pulse-wa 2s infinite; /* أنيميشن النبض المستمر */
+    animation: pulse-wa 2s infinite; 
 }
 
 /* تأثير لما الماوس يقف عليه (للكومبيوتر) */
 .whatsapp-fixed:hover {
-    background: #20b858; /* لون أغمق سنة صغيرة */
-    transform: scale(1.1) translateY(-5px); /* بيكبر ويطلع لفوق */
-    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); /* توهج أخضر */
+    background: #20b858; 
+    transform: scale(1.1) translateY(-5px); 
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); 
 }
 
 /* كود حركة النبض (Pulse) */
@@ -678,19 +678,19 @@ header.main-header {
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: var(--transition, 0.3s ease);
-    cursor: pointer; /* إضافة مؤشر الضغط */
+    cursor: pointer; 
 }
 
 .video-card:hover {
     border-color: var(--gold);
     transform: translateY(-10px);
-    box-shadow: 0 10px 25px rgba(197, 160, 89, 0.15); /* ظل ذهبي خفيف */
+    box-shadow: 0 10px 25px rgba(197, 160, 89, 0.15); 
 }
 
 /* حاوية صورة الغلاف وزر التشغيل */
 .video-thumbnail {
     width: 100%;
-    aspect-ratio: 16 / 9; /* الحفاظ على أبعاد الفيديو بدقة */
+    aspect-ratio: 16 / 9; 
     background: #000;
     position: relative;
     overflow: hidden;
@@ -705,7 +705,7 @@ header.main-header {
 }
 
 .video-card:hover .video-thumbnail img {
-    transform: scale(1.1); /* تأثير الزووم عند الوقوف */
+    transform: scale(1.1); 
 }
 
 /* زر التشغيل (Play Button) */
@@ -716,14 +716,14 @@ header.main-header {
     transform: translate(-50%, -50%);
     width: 60px;
     height: 60px;
-    background: var(--gold); /* استخدام اللون الذهبي الخاص بك */
+    background: var(--gold); 
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #000;
     font-size: 1.5rem;
-    padding-left: 5px; /* لضبط توسيط الأيقونة */
+    padding-left: 5px; 
     transition: var(--transition, 0.3s ease);
     animation: pulse-play 2s infinite;
 }
@@ -814,7 +814,7 @@ header.main-header {
         grid-template-columns: 1fr;
     }
     .modal-video-container {
-        width: 95%; /* مساحة أكبر في الموبايل */
+        width: 95%; 
     }
 }
 
@@ -1104,6 +1104,7 @@ header.main-header {
     letter-spacing: 2px;
 
 }
+
 
 
 
