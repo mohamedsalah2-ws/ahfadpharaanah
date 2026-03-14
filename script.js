@@ -1,16 +1,14 @@
-/**
- * أحفاد الفراعنة للديكور - المحرك البرمجي المطور V4.1 (دعم السحب والإغلاق الذكي)
- */
-
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- 1. التحكم في القائمة المتجاوبة ---
+
+    // =========================================================
+    // --- 1. قائمة الموبايل ---
+    // =========================================================
     const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.getElementById('nav-links');
 
     if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', (e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             navLinks.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
@@ -31,11 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 2. تأثير الكتابة الآلية ---
+    // =========================================================
+    // --- 2. تأثير الكتابة على النص الذهبي ---
+    // =========================================================
     const bronzeText = document.querySelector('.bronze-text');
     if (bronzeText) {
         const fullText = bronzeText.innerText;
-        bronzeText.innerText = ''; 
+        bronzeText.innerText = '';
         let charIndex = 0;
 
         function typeEffect() {
@@ -48,7 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(typeEffect, 800);
     }
 
-    // --- 3. تحكم الهيدر عند التمرير ---
+    // =========================================================
+    // --- 3. تغيير خلفية الهيدر عند التمرير ---
+    // =========================================================
     const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -62,17 +64,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 4. أنيميشن ظهور العناصر عند التمرير ---
+    // =========================================================
+    // --- 4. تأثير الظهور عند التمرير ---
+    // =========================================================
     const revealOnScroll = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('reveal-active');
-                revealOnScroll.unobserve(entry.target); 
+                revealOnScroll.unobserve(entry.target);
             }
         });
     }, { threshold: 0.15 });
 
-    const scrollElements = document.querySelectorAll('.service-item, .contact-wrapper > div, .folder-card'); 
+    const scrollElements = document.querySelectorAll('.service-item, .contact-wrapper > div, .folder-card');
     scrollElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -86,18 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
         style.innerHTML = '.reveal-active { opacity: 1 !important; transform: translateY(0) !important; }';
         document.head.appendChild(style);
     }
-    
-    // --- إعدادات إغلاق النافذة عند الضغط في الخلفية ---
+
+    // =========================================================
+    // --- 5. إغلاق مودال الصور عند الضغط على الخلفية ---
+    // =========================================================
     const folderModal = document.getElementById('folder-modal');
     if (folderModal) {
         folderModal.addEventListener('click', (e) => {
-            // الإغلاق فقط إذا كان الضغط على الخلفية السوداء أو الحاوية، وليس على الصورة أو الأسهم
             if (e.target.id === 'folder-modal' || e.target.classList.contains('modal-slider-container')) {
                 closeModal();
             }
         });
-        
-        // --- إعدادات السحب (Swipe) للموبايل ---
+
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -111,98 +115,128 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
 
         function handleSwipe() {
-            const swipeThreshold = 50; // المسافة المطلوبة لاعتبار الحركة "سحبة"
-            
-            // سحب لليسار (الصورة التالية)
-            if (touchStartX - touchEndX > swipeThreshold) {
-                changeImage(1);
-            }
-            // سحب لليمين (الصورة السابقة)
-            if (touchEndX - touchStartX > swipeThreshold) {
-                changeImage(-1);
-            }
+            const swipeThreshold = 50;
+            if (touchStartX - touchEndX > swipeThreshold) changeImage(1);
+            if (touchEndX - touchStartX > swipeThreshold) changeImage(-1);
         }
+    }
+
+    // =========================================================
+    // --- 6. توليد الـ Thumbnail من الفيديو تلقائياً ---
+    //
+    //  كيفية التحكم في اللقطة؟
+    //  أضف data-time="10" على الـ <img> في HTML
+    //  مثال: <img class="video-thumb-auto" data-video="videos/project1.mp4" data-time="10">
+    //  لو مش حاطط data-time هياخد الثانية 1 تلقائياً
+    // =========================================================
+    function generateVideoThumbnail(videoSrc, imgElement) {
+        const video = document.createElement('video');
+        video.src = videoSrc;
+        video.crossOrigin = 'anonymous';
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+
+        video.addEventListener('loadeddata', () => {
+            // اقرأ الثانية من data-time، لو مش موجودة استخدم 1
+            const seekTime = parseFloat(imgElement.dataset.time) || 1;
+            video.currentTime = seekTime;
+        });
+
+        video.addEventListener('seeked', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth || 640;
+            canvas.height = video.videoHeight || 360;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            try {
+                imgElement.src = canvas.toDataURL('image/jpeg', 0.85);
+            } catch (e) {
+                console.warn('تعذّر توليد الـ thumbnail بسبب قيود CORS:', videoSrc);
+            }
+        });
+
+        video.addEventListener('error', () => {
+            console.warn('فشل تحميل الفيديو:', videoSrc);
+        });
+
+        video.load();
+    }
+
+    // طبّق على كل كروت الفيديو
+    document.querySelectorAll('.video-thumb-auto').forEach(img => {
+        const videoSrc = img.dataset.video;
+        if (videoSrc) generateVideoThumbnail(videoSrc, img);
+    });
+
+    // =========================================================
+    // --- 7. إغلاق مودال الفيديو عند الضغط على الخلفية ---
+    // =========================================================
+    const videoModal = document.getElementById('video-modal');
+    if (videoModal) {
+        videoModal.addEventListener('click', (e) => {
+            if (e.target.id === 'video-modal') closeVideo();
+        });
     }
 });
 
+
 // =========================================================
-// --- 5. محرك المجلدات وعرض الصور (بالخارج لتعمل مع HTML) ---
+// --- محرك المجلدات وعرض الصور ---
 // =========================================================
 
 let currentFolderImages = [];
 let currentImageIndex = 0;
 
-// دالة فتح الفولدر
 function openFolder(folderId, folderTitle) {
     const hiddenFolder = document.getElementById(folderId);
-    
     if (hiddenFolder) {
         const images = hiddenFolder.querySelectorAll('img');
-        
         if (images.length > 0) {
             currentFolderImages = Array.from(images).map(img => img.src);
             currentImageIndex = 0;
-
             document.getElementById('modal-folder-title').innerText = folderTitle;
-            
             updateModalView();
-            const modal = document.getElementById('folder-modal');
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; 
-        } else {
-            console.log("لا توجد صور في هذا القسم بعد.");
+            document.getElementById('folder-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
     }
 }
 
-// دالة تقليب الصور يميناً ويساراً
 function changeImage(step) {
     const imgElement = document.getElementById('modal-main-img');
-    imgElement.style.opacity = '0'; 
-    
+    imgElement.style.opacity = '0';
     setTimeout(() => {
         currentImageIndex += step;
-        
-        if (currentImageIndex >= currentFolderImages.length) {
-            currentImageIndex = 0;
-        } else if (currentImageIndex < 0) {
-            currentImageIndex = currentFolderImages.length - 1;
-        }
-        
+        if (currentImageIndex >= currentFolderImages.length) currentImageIndex = 0;
+        if (currentImageIndex < 0) currentImageIndex = currentFolderImages.length - 1;
         updateModalView();
-        imgElement.style.opacity = '1'; 
+        imgElement.style.opacity = '1';
     }, 200);
 }
 
-// دالة تحديث الصورة المعروضة
 function updateModalView() {
     document.getElementById('modal-main-img').src = currentFolderImages[currentImageIndex];
     document.getElementById('image-counter').innerText = (currentImageIndex + 1) + ' / ' + currentFolderImages.length;
 }
 
-// دالة إغلاق النافذة
 function closeModal() {
     document.getElementById('folder-modal').style.display = 'none';
-    document.body.style.overflow = 'auto'; 
+    document.body.style.overflow = 'auto';
 }
 
+
 // =========================================================
-// --- 6. محرك عرض الفيديوهات (Cinematic Video Player) ---
+// --- محرك عرض الفيديوهات ---
 // =========================================================
 
 function openVideo(videoSrc) {
     const videoModal = document.getElementById('video-modal');
     const videoPlayer = document.getElementById('main-video-player');
-
     if (videoModal && videoPlayer) {
-        // تغيير مسار الفيديو وتشغيله
         videoPlayer.src = videoSrc;
-        
-        // إظهار النافذة
         videoModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // إيقاف التمرير
-        
-        // تشغيل الفيديو تلقائياً
+        document.body.style.overflow = 'hidden';
         videoPlayer.play();
     }
 }
@@ -210,27 +244,11 @@ function openVideo(videoSrc) {
 function closeVideo() {
     const videoModal = document.getElementById('video-modal');
     const videoPlayer = document.getElementById('main-video-player');
-
     if (videoModal && videoPlayer) {
-        // إخفاء النافذة
         videoModal.style.display = 'none';
-        document.body.style.overflow = 'auto'; 
-        
-        // إيقاف الفيديو وتفريغ المسار حتى لا يستمر في الخلفية
+        document.body.style.overflow = 'auto';
         videoPlayer.pause();
         videoPlayer.currentTime = 0;
-        videoPlayer.src = "";
+        videoPlayer.src = '';
     }
 }
-
-// إغلاق الفيديو عند الضغط في الخلفية السوداء
-document.addEventListener('DOMContentLoaded', () => {
-    const videoModal = document.getElementById('video-modal');
-    if (videoModal) {
-        videoModal.addEventListener('click', (e) => {
-            if (e.target.id === 'video-modal') {
-                closeVideo();
-            }
-        });
-    }
-});
